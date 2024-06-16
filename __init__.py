@@ -38,7 +38,7 @@ import itertools
 import sys
 
 
-cl = clfilter("rp:", doc=__doc__) ## Option values in cl.opt dictionary
+cl = clfilter("srp:n:", doc=__doc__) ## Option values in cl.opt dictionary
 
 #receives a str 
 def enough_texts(src: Iterable[str]) -> Iterable[str]:
@@ -56,7 +56,7 @@ def main():
 
     for p in prompts:
         src = (get_body(id) for id in toogle(p))
-        texts = list(itertools.islice(src, cl.opt.get("-n", 3)) if "-n" in cl.opt else enough_texts(src))
+        texts = list(itertools.islice(src, int(cl.opt.get("-n", 3))) if "-n" in cl.opt else enough_texts(src))
 
         if "-r" in cl.opt:
             for t in texts:
