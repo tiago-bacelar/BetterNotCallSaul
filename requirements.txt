@@ -1,0 +1,8 @@
+ijson==3.3.0
+
+#torch / pytorch
+#jjcli
+#transformers
+#numpy
+#gensim
+#sqlite3
