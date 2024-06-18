@@ -31,7 +31,7 @@ __version__ = "1.0.0"
 from collections.abc import Iterable
 from toogle import toogle
 from chatPT import chatPT
-from archivist import get_body
+from archivist import get_body, get_metadata
 
 from jjcli import *
 import itertools
@@ -55,8 +55,12 @@ def main():
     context=""
 
     for p in prompts:
-        src = (head + '\n' + get_body(id) for id,head in toogle(p))
-        texts = list(itertools.islice(src, cl.opt.get("-n", 3))) # if "-n" in cl.opt else enough_texts(src)
+        src = (f"{get_metadata(id)}\n{get_body(id)}" for id,score in toogle(p))
+        texts = list(itertools.islice(src, int(cl.opt.get("-n", 3)))) # if "-n" in cl.opt else enough_texts(src)
+
+        for t in texts:
+            print(t)
+        exit()
 
         if "-r" in cl.opt:
             for t in texts:

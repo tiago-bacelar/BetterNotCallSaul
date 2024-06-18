@@ -106,10 +106,18 @@ meta = None
 def metadata() -> Iterable[tuple[int,str]]:
     #with open('dre.json', 'rb') as f:
     #    yield from ((m['id'], m['notes']) for m in ijson.items(f, 'item'))
+    global meta
     if meta == None:
         with open('dre.json', 'rb') as f:
-            meta = {(m['id'], m['notes']) for m in ijson.items(f, 'item')}
-    return meta
+            meta = {m['id']: m['notes'] for m in ijson.items(f, 'item')}
+    return meta.items()
+
+def get_metadata(id: int) -> str:
+    global meta
+    if meta == None:
+        with open('dre.json', 'rb') as f:
+            meta = {m['id']: m['notes'] for m in ijson.items(f, 'item')}
+    return meta[id]
 
 dbConn = sqlite3.connect("model/a.db")
 dbCur = dbConn.cursor()
