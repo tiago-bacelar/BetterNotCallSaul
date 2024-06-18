@@ -18,7 +18,6 @@ CURRFOLDER,_ = os.path.split(__file__)
 class CachedObj:
     def __init__(self, file: str, calculator: Callable[[], object], mode:str='bytes'):
         self.file = os.path.join(CURRFOLDER,"cache",file)
-        print(self.file)
         self.calculator = calculator
         self.mode = mode
         self.obj = None

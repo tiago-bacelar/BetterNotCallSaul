@@ -125,7 +125,6 @@ def toogle(query: str) -> Iterable[int]:
         for t,top in tops.items():
             top.add((w,occ,similarity(w,t)))
             
-    print(tops)
     scores = {}
 
     for t,top in tops.items():

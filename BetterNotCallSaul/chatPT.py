@@ -7,7 +7,6 @@ question_answerer = pipeline("question-answering", model="lfcc/bert-portuguese-s
 
 def chatPT(context: str, prompt: str) -> str:
     result = question_answerer(question=prompt, context=context)
-    #print(result)
     return result['answer'], result['score']
 
 
