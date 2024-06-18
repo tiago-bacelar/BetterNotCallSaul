@@ -124,14 +124,15 @@ def toogle(query: str) -> Iterable[int]:
     for w,occ in occurences.get():
         for t,top in tops.items():
             top.add((w,occ,similarity(w,t)))
-
+            
+    print(tops)
     scores = {}
 
     for t,top in tops.items():
         for w,occ,sim in top.get():
             for id,n in occ.items():
                 scores[id] = scores.get(id, 0) + pow(2, alpha * (sim - 1)) * log2(1+n/doc_sizes.get()[id]) * idf(w)
- 
+        
     return sorted(scores.items(), key=lambda kv: kv[1],reverse=True)
     
     #aux = doc2vec(query)

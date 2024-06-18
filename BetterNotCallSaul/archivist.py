@@ -18,6 +18,7 @@ CURRFOLDER,_ = os.path.split(__file__)
 class CachedObj:
     def __init__(self, file: str, calculator: Callable[[], object], mode:str='bytes'):
         self.file = os.path.join(CURRFOLDER,"cache",file)
+        print(self.file)
         self.calculator = calculator
         self.mode = mode
         self.obj = None
@@ -106,19 +107,21 @@ class CachedIter:
             os.remove(self.file)
 
 meta = None
+DRE = os.path.join(CURRFOLDER,"model","dre.json")
+
 def metadata() -> Iterable[tuple[int,str]]:
-    #with open('dre.json', 'rb') as f:
+    #with open(os.path.join(CURRFOLDER,"model","dre.json"), 'rb') as f:
     #    yield from ((m['id'], m['notes']) for m in ijson.items(f, 'item'))
     global meta
     if meta == None:
-        with open('dre.json', 'rb') as f:
+        with open(DRE, 'rb') as f:
             meta = {m['id']: m['notes'] for m in ijson.items(f, 'item')}
     return meta.items()
 
 def get_metadata(id: int) -> str:
     global meta
     if meta == None:
-        with open('dre.json', 'rb') as f:
+        with open(DRE, 'rb') as f:
             meta = {m['id']: m['notes'] for m in ijson.items(f, 'item')}
     return meta[id]
 

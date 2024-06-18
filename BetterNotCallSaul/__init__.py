@@ -57,7 +57,7 @@ def main():
     for p in prompts:
         src = (f"{get_metadata(id)}\n{get_body(id)}" for id,score in toogle(p))
         texts = list(itertools.islice(src, int(cl.opt.get("-n", 3)))) # if "-n" in cl.opt else enough_texts(src)
-
+        print(texts)
         for t in texts:
             print(t)
 
@@ -79,3 +79,4 @@ def main():
 
         context += f"{p}\n{answer}\n\n"
 
+main()
