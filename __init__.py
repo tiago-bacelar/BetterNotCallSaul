@@ -38,7 +38,7 @@ import itertools
 import sys
 
 
-cl = clfilter("rp:", doc=__doc__) ## Option values in cl.opt dictionary
+cl = clfilter("srp:n:", doc=__doc__) ## Option values in cl.opt dictionary
 
 #receives a str 
 def enough_texts(src: Iterable[str]) -> Iterable[str]:

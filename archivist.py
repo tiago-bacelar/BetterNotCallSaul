@@ -7,6 +7,9 @@ import json
 import os
 import pickle
 import ijson
+import sqlite3
+from bs4 import BeautifulSoup as BS
+from gensim.models import Word2Vec
 
 
 class CachedObj:
@@ -108,11 +111,16 @@ def metadata() -> Iterable[tuple[int,str]]:
             meta = {(m['id'], m['notes']) for m in ijson.items(f, 'item')}
     return meta
 
+dbConn = sqlite3.connect("model/a.db")
+dbCur = dbConn.cursor()
 
-def get_body(id: int):  #TODO
-    for i,m in metadata():
-        if i == id:
-            return m
+def get_body(id: int):
+    dbCur.execute(f'select text_content from dreapp_documenttext WHERE documenttext_id={id}')
+    data = dbCur.fetchall()
+    if data==[]:
+        return "" #TODO:: Maybe change this
+    else:
+        return BS(data[0][0],'html.parser').get_text()
 
     
 
