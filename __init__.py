@@ -55,8 +55,8 @@ def main():
     context=""
 
     for p in prompts:
-        src = (get_body(id) for id in toogle(p))
-        texts = list(itertools.islice(src, cl.opt.get("-n", 3)) if "-n" in cl.opt else enough_texts(src))
+        src = (head + '\n' + get_body(id) for id,head in toogle(p))
+        texts = list(itertools.islice(src, cl.opt.get("-n", 3))) # if "-n" in cl.opt else enough_texts(src)
 
         if "-r" in cl.opt:
             for t in texts:
@@ -69,6 +69,8 @@ def main():
         if "-r" in cl.opt:
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         print(answer)
+        if "-s" in cl.opt:
+            print(score)
         if "-r" in cl.opt:
             print("\n\n")
 

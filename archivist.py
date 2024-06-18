@@ -43,9 +43,10 @@ class CachedObj:
     def calculate(self) -> bool:
         if not os.path.exists(self.file):
             logger.log(f"'{self.file}' not found. Generating...")
+            logger.pushTimer()
             self.obj = self.calculator()
             self.serialize()
-            logger.log("done")
+            logger.log(f"done. {logger.popTimer()}s elapsed")
             return True
         return False
 
@@ -88,8 +89,9 @@ class CachedIter:
     def calculate(self) -> bool:
         if not os.path.exists(self.file):
             logger.log(f"'{self.file}' not found. Generating...")
+            logger.pushTimer()
             self.serialize()
-            logger.log("done")
+            logger.log(f"done. {logger.popTimer()}s elapsed")
             return True
         return False
 
@@ -97,11 +99,14 @@ class CachedIter:
         if os.path.exists(self.file):
             os.remove(self.file)
 
-#TODO: use database
-metadata_file = open('dre.json', 'rb')
+meta = None
 def metadata() -> Iterable[tuple[int,str]]:
-    metadata_file.seek(0)
-    return ((m['id'], m['notes']) for m in ijson.items(metadata_file, 'item'))
+    #with open('dre.json', 'rb') as f:
+    #    yield from ((m['id'], m['notes']) for m in ijson.items(f, 'item'))
+    if meta == None:
+        with open('dre.json', 'rb') as f:
+            meta = {(m['id'], m['notes']) for m in ijson.items(f, 'item')}
+    return meta
 
 
 def get_body(id: int):  #TODO
